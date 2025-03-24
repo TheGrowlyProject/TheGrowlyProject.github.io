@@ -3,13 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willkommen bei TheGrowlyProject</title>
+    <meta name="description" content="Growly – Wissen für alle. Freie Bildung, offene Inhalte und eine starke Gemeinschaft für Wissensaustausch.">
+    <title>Growly – Wissen für alle</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        :root {
+            --primary-color: #0D4026;
+            --secondary-color: #2EA043;
+            --background-color: #F5F5F5;
+            --text-color: #333;
+            --button-color: #2EA043;
+            --button-hover: #0D4026;
+            --focus-outline: #FFD700;
+            --font-size-base: 1rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background-color: var(--secondary-color);
+            padding: 0.8rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a:focus {
+            background-color: var(--primary-color);
+            outline: 3px solid var(--focus-outline);
+        }
+
+        /* Burger Menü */
+        .burger-menu {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--secondary-color);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            .nav-links a {
+                display: block;
+                padding: 0.8rem;
+                text-align: center;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
+        .container {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .section {
+            display: none;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            background-color: var(--button-color);
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background-color: var(--button-hover);
+            outline: 3px solid var(--focus-outline);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--secondary-color);
+            outline: 3px solid var(--focus-outline);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background: var(--button-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover, button[type="submit"]:focus {
+            background-color: var(--button-hover);
+            outline: 3px solid var(--focus-outline);
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            flex: 1 1 300px;
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .blog-post {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .blog-post h3 {
+            margin-bottom: 0.8rem;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .sponsors {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .sponsor {
+            max-width: 200px;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .sponsor img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>Hallo, Welt!</h1>
-    <p>Dies ist die GitHub Page von TheGrowlyProject.</p>
+
+    <header>
+        Growly – Wissen für alle
+    </header>
+
+    <div class="nav-container">
+        <button class="burger-menu" onclick="toggleMenu()" aria-label="Menü öffnen">☰</button>
+        <nav class="nav-links">
+            <a href="#" onclick="showSectionAndCloseMenu(event, 'home')">Start</a>
+            <a href="#" onclick="showSectionAndCloseMenu(event, 'mitmachen')">Mitmachen</a>
+            <a href="#" onclick="showSectionAndCloseMenu(event, 'sponsoren')">Sponsoren</a>
+            <a href="#" onclick="showSectionAndCloseMenu(event, 'blog')">Blog</a>
+            <a href="#" onclick="showSectionAndCloseMenu(event, 'kontakt')">Kontakt</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div id="home" class="section active">
+            <h1>Wissen ist ein Grundrecht!</h1>
+            <p>Growly ist eine gemeinnützige Plattform, die sich für freien Zugang zu Bildung und Wissen einsetzt. Wir glauben, dass Bildung keine Privilegien kennen sollte und jeder Mensch das Recht auf freien Wissensaustausch hat.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Offene Bildungsressourcen</h3>
+                    <p>Kostenlose Lernmaterialien, Kurse und Tutorials zu verschiedensten Themen - von Programmierung bis Philosophie.</p>
+                </div>
+                <div class="feature">
+                    <h3>Community-basiert</h3>
+                    <p>Eine aktive Gemeinschaft von Lehrenden und Lernenden, die Wissen teilen und gemeinsam wachsen.</p>
+                </div>
+                <div class="feature">
+                    <h3>Barrierefrei</h3>
+                    <p>Unsere Inhalte sind mehrsprachig und werden kontinuierlich für bessere Zugänglichkeit optimiert.</p>
+                </div>
+            </div>
+            
+            <h2>Unsere Mission</h2>
+            <p>In einer Welt, in der Bildung oft hinter Paywalls versteckt ist, setzen wir uns für freien Wissensaustausch ein. Growly wurde 2020 gegründet und hat seitdem über 50.000 Lernenden geholfen, neue Fähigkeiten zu erlernen.</p>
+            
+            <h2>Aktuelle Projekte</h2>
+            <ul>
+                <li><strong>OpenSkills:</strong> Eine Plattform für kostenlose Programmierkurse</li>
+                <li><strong>Wissensdatenbank:</strong> Community-erstellte Artikel zu verschiedenen Themen</li>
+                <li><strong>Lernpartnerschaften:</strong> Vernetzung von Lernenden weltweit</li>
+            </ul>
+            
+            <button class="cta-button" onclick="showSectionAndCloseMenu(event, 'mitmachen')">Jetzt mitmachen</button>
+        </div>
+
+        <div id="mitmachen" class="section">
+            <h1>Werde Teil von Growly!</h1>
+            <p>Bei Growly kannst du auf verschiedene Weise mitwirken und die Bewegung für freies Wissen unterstützen.</p>
+            
+            <h2>Als Autor/in</h2>
+            <p>Teile dein Fachwissen, indem du Lernmaterialien erstellst oder bestehende Inhalte verbesserst. Wir suchen Experten in allen Bereichen!</p>
+            
+            <h2>Als Übersetzer/in</h2>
+            <p>Hilf uns, Inhalte in verschiedene Sprachen zu übersetzen und so Wissen für mehr Menschen zugänglich zu machen.</p>
+            
+            <h2>Als Tutor/in</h2>
+            <p>Unterstütze Lernende in unseren Community-Foren oder biete kostenlose Online-Workshops an.</p>
+            
+            <h2>Als Entwickler/in</h2>
+            <p>Hilf bei der Weiterentwicklung unserer Open-Source-Plattform und Tools mit.</p>
+            
+            <h2>Vorteile für Mitwirkende</h2>
+            <ul>
+                <li>Zugang zu exklusiven Community-Events</li>
+                <li>Mentoring-Programme mit Experten</li>
+                <li>Zertifikate für dein Engagement</li>
+                <li>Netzwerkmöglichkeiten mit Gleichgesinnten</li>
+            </ul>
+            
+            <p>Unser aktueller Fokus liegt auf diesen Themenbereichen:</p>
+            <ol>
+                <li>Programmierung und Technologie</li>
+                <li>Sprachen lernen</li>
+                <li>Nachhaltigkeit und Ökologie</li>
+                <li>Soziale Kompetenzen</li>
+            </ol>
+            
+            <button class="cta-button" onclick="showSectionAndCloseMenu(event, 'kontakt')">Kontakt aufnehmen</button>
+        </div>
+
+        <div id="sponsoren" class="section">
+            <h1>Werde Unterstützer oder Sponsor</h1>
+            <p>Freies Wissen braucht nachhaltige Finanzierung. Als Sponsor oder Förderer helfen Sie uns, unsere Mission voranzutreiben.</p>
+            
+            <h2>Unternehmenssponsoring</h2>
+            <p>Unternehmen können Growly auf verschiedene Weise unterstützen:</p>
+            <ul>
+                <li>Finanzielle Förderung bestimmter Projekte</li>
+                <li>Bereitstellung von Expertise durch Mitarbeiter-Engagement</li>
+                <li>Infrastruktur-Sponsoring (Server, Software-Lizenzen etc.)</li>
+            </ul>
+            
+            <h2>Förderprogramme</h2>
+            <p>Wir bieten verschiedene Förderstufen mit entsprechenden Gegenleistungen:</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>Bronze (ab 500€/Jahr)</h3>
+                    <ul>
+                        <li>Logo auf unserer Website</li>
+                        <li>Erwähnung in Newsletter</li>
+                    </ul>
+                </div>
+                <div class="feature">
+                    <h3>Silber (ab 2.000€/Jahr)</h3>
+                    <ul>
+                        <li>Alle Bronze-Leistungen</li>
+                        <li>Dedizierter Blogbeitrag</li>
+                        <li>Präsentation bei Events</li>
+                    </ul>
+                </div>
+                <div class="feature">
+                    <h3>Gold (ab 5.000€/Jahr)</h3>
+                    <ul>
+                        <li>Alle Silber-Leistungen</li>
+                        <li>Eigene Projekteite</li>
+                        <li>Exklusive Workshops für Mitarbeiter</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2>Aktuelle Sponsoren</h2>
+            <p>Wir danken unseren aktuellen Unterstützern:</p>
+            
+            <div class="sponsors">
+                <div class="sponsor">
+                    <img src="https://via.placeholder.com/150x80?text=TechFutures" alt="TechFutures Logo">
+                </div>
+                <div class="sponsor">
+                    <img src="https://via.placeholder.com/150x80?text=GreenCode" alt="GreenCode Logo">
+                </div>
+                <div class="sponsor">
+                    <img src="https://via.placeholder.com/150x80?text=OpenEdu" alt="OpenEdu Logo">
+                </div>
+            </div>
+            
+            <button class="cta-button" onclick="showSectionAndCloseMenu(event, 'kontakt')">Jetzt Sponsor werden</button>
+        </div>
+
+        <div id="blog" class="section">
+            <h1>Blog & News</h1>
+            <p>Aktuelle Beiträge und Neuigkeiten rund um freies Wissen und unsere Projekte.</p>
+            
+            <div class="blog-posts">
+                <div class="blog-post">
+                    <h3>Neues Programm für digitale Inklusion</h3>
+                    <div class="post-meta">15. März 2023 | Projektupdates</div>
+                    <p>Wir starten ein neues Programm, das digitale Bildung in ländliche Regionen bringt. Erfahre mehr über unsere Pläne und wie du teilnehmen kannst.</p>
+                    <a href="#" class="cta-button">Weiterlesen</a>
+                </div>
+                <div class="blog-post">
+                    <h3>Interview mit einer freiwilligen Übersetzerin</h3>
+                    <div class="post-meta">2. März 2023 | Community</div>
+                    <p>Maria erzählt, wie sie in einem Jahr über 200 Seiten Bildungsmaterial ins Spanische übersetzt hat und was sie dabei gelernt hat.</p>
+                    <a href="#" class="cta-button">Weiterlesen</a>
+                </div>
+                <div class="blog-post">
+                    <h3>Jahresbericht 2022 veröffentlicht</h3>
+                    <div class="post-meta">20. Februar 2023 | Organisation</div>
+                    <p>Erfahre mehr über unsere Erfolge, Herausforderungen und Pläne für die Zukunft in unserem aktuellen Jahresbericht.</p>
+                    <a href="#" class="cta-button">Weiterlesen</a>
+                </div>
+            </div>
+            
+            <h2>Newsletter abonnieren</h2>
+            <p>Bleibe auf dem Laufenden über unsere Projekte und Veranstaltungen.</p>
+            
+            <form id="newsletter-form">
+                <div class="form-group">
+                    <label for="newsletter-email">E-Mail-Adresse</label>
+                    <input type="email" id="newsletter-email" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required> Ich stimme den Datenschutzbestimmungen zu
+                    </label>
+                </div>
+                <button type="submit" class="cta-button">Anmelden</button>
+            </form>
+        </div>
+
+        <div id="kontakt" class="section">
+            <h1>Kontakt</h1>
+            <p>Hast du Fragen, Anregungen oder möchtest dich engagieren? Wir freuen uns auf deine Nachricht!</p>
+            
+            <div class="success-message" id="contact-success">
+                Vielen Dank für deine Nachricht! Wir werden uns bald bei dir melden.
+            </div>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-Mail-Adresse</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Betreff</label>
+                    <select id="subject" required>
+                        <option value="">-- Bitte auswählen --</option>
+                        <option value="mitmachen">Mitmachen bei Growly</option>
+                        <option value="sponsoring">Sponsoring-Anfrage</option>
+                        <option value="feedback">Feedback zur Plattform</option>
+                        <option value="other">Anderes Anliegen</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Nachricht</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required> Ich stimme den Datenschutzbestimmungen zu
+                    </label>
+                </div>
+                
+                <button type="submit" class="cta-button">Nachricht senden</button>
+            </form>
+            
+            <h2 style="margin-top: 2rem;">Weitere Kontaktmöglichkeiten</h2>
+            <p>
+                <strong>E-Mail:</strong> kontakt@growly.org<br>
+                <strong>Telefon:</strong> +49 30 12345678 (Mo-Fr 10-16 Uhr)<br>
+                <strong>Adresse:</strong> Growly e.V., Wissensstraße 42, 10115 Berlin
+            </p>
+            
+            <h2>Social Media</h2>
+            <p>
+                Folge uns auf <a href="#" target="_blank">Twitter</a>, 
+                <a href="#" target="_blank">LinkedIn</a> und 
+                <a href="#" target="_blank">Instagram</a> für aktuelle Updates.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(event, sectionId) {
+            event.preventDefault();
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showSectionAndCloseMenu(event, sectionId) {
+            showSection(event, sectionId);
+            // Schließt das Burger-Menü nach Klick
+            document.querySelector(".nav-links").classList.remove("active");
+        }
+
+        function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("active");
+        }
+
+        // Kontaktformular-Handling
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Hier würde normalerweise der Formularversand erfolgen
+            // Für diese Demo zeigen wir einfach die Erfolgsmeldung
+            document.getElementById('contact-success').style.display = 'block';
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('contact-success').style.display = 'none';
+            }, 5000);
+        });
+
+        // Newsletter-Formular-Handling
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Vielen Dank für deine Anmeldung zu unserem Newsletter!');
+            this.reset();
+        });
+    </script>
+
 </body>
 </html>
